@@ -10,9 +10,10 @@ Source0:	http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/current/%{name}.ta
 Source1:	%{name}-ant.xml
 Group:		Development/Languages/Java
 URL:		http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/util/concurrent/
-BuildRequires:	jpackage-utils >= 0:1.5
-BuildRequires:  rpmbuild(macros) >= 1.300
 BuildRequires:	ant
+BuildRequires:	jpackage-utils >= 0:1.5
+BuildRequires:	rpm-javaprov
+BuildRequires:	rpmbuild(macros) >= 1.300
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -28,6 +29,7 @@ in Java.
 %package javadoc
 Summary:	Javadoc for %{name}
 Group:		Documentation
+Requires:	jpackage-utils
 
 %description javadoc
 Javadoc for %{name}.
