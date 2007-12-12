@@ -2,7 +2,7 @@
 Summary:	Utility classes for concurrent Java programming
 Name:		concurrent
 Version:	1.3.2
-Release:	0.1
+Release:	1
 Epoch:		0
 License:	Public domain
 Source0:	http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/current/%{name}.tar.gz
@@ -14,6 +14,7 @@ BuildRequires:	ant
 BuildRequires:	jpackage-utils >= 0:1.5
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
+Requires:	jpackage-utils
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -49,18 +50,18 @@ cp %{SOURCE1} build.xml
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_javadir}
-install %{name}-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/
+install %{name}-%{version}.jar $RPM_BUILD_ROOT%{_javadir}
 ln -s %{name}-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}.jar
 install -d $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
-cp -pr docs/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
+
+cp -a docs/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 ln -s %{name}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{name} # ghost symlink
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post javadoc
-rm -f %{_javadocdir}/%{name}
-ln -s %{name}-%{version} %{_javadocdir}/%{name}
+ln -nfs %{name}-%{version} %{_javadocdir}/%{name}
 
 %files
 %defattr(644,root,root,755)
@@ -68,5 +69,5 @@ ln -s %{name}-%{version} %{_javadocdir}/%{name}
 
 %files javadoc
 %defattr(644,root,root,755)
-%doc %{_javadocdir}/%{name}-%{version}
-%ghost %doc %{_javadocdir}/%{name}
+%{_javadocdir}/%{name}-%{version}
+%ghost %{_javadocdir}/%{name}
