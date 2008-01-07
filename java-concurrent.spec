@@ -1,14 +1,15 @@
 %include	/usr/lib/rpm/macros.java
 Summary:	Utility classes for concurrent Java programming
+Summary(pl.UTF-8):	Klasy narzędziowe do programowania współbieżnego w Javie
 Name:		concurrent
 Version:	1.3.2
 Release:	1
 Epoch:		0
-License:	Public domain
+License:	Public Domain
+Group:		Development/Languages/Java
 Source0:	http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/current/%{name}.tar.gz
 # Source0-md5:	6a7898a403c3c400f271c6e9285ce9a2
 Source1:	%{name}-ant.xml
-Group:		Development/Languages/Java
 URL:		http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/util/concurrent/
 BuildRequires:	ant
 BuildRequires:	jpackage-utils >= 0:1.5
@@ -27,13 +28,25 @@ Discussions of the rationale and applications of several of these
 classes can be found in the second edition of Concurrent Programming
 in Java.
 
+%description -l pl.UTF-8
+Ten pakiet udostępnia ustandaryzowaną, wydajną wersję klas
+narzędziowych zwykle spotykanych w programowaniu współbieżnym w Javie.
+Ten kod składa się z implementacji idei, które istniały od wieków i ma
+jedynie uchronić przed kodowaniem ich. Dyskusje o zasadności
+stosowania niektórych z nich można znaleźć w drugim wydaniu pozycji
+"Concurrent Programming in Java" (Programowanie współbieżne w Javie).
+
 %package javadoc
 Summary:	Javadoc for %{name}
+Summary(pl.UTF-8):	Dokumentacja Javadoc dla pakietu %{name}
 Group:		Documentation
 Requires:	jpackage-utils
 
 %description javadoc
 Javadoc for %{name}.
+
+%description javadoc -l pl.UTF-8
+Dokumentacja Javadoc dla pakietu %{name}.
 
 %prep
 %setup -c -q
@@ -43,9 +56,9 @@ cp %{SOURCE1} build.xml
 
 %build
 %ant \
-  -Dversion=%{version} \
-  -Dj2se.apiurl=%{_javadocdir}/java \
-  jar javadoc
+	-Dversion=%{version} \
+	-Dj2se.apiurl=%{_javadocdir}/java \
+	jar javadoc
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -65,7 +78,7 @@ ln -nfs %{name}-%{version} %{_javadocdir}/%{name}
 
 %files
 %defattr(644,root,root,755)
-%{_javadir}/*.jar
+%{_javadir}/concurrent*.jar
 
 %files javadoc
 %defattr(644,root,root,755)
