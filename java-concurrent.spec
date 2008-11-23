@@ -1,21 +1,27 @@
+#
+# Conditional build:
+%bcond_without	javadoc		# don't build javadoc
+
 %include	/usr/lib/rpm/macros.java
 Summary:	Utility classes for concurrent Java programming
 Summary(pl.UTF-8):	Klasy narzędziowe do programowania współbieżnego w Javie
-Name:		concurrent
+Name:		java-concurrent
 Version:	1.3.2
 Release:	1
 Epoch:		0
-License:	Public Domain
-Group:		Development/Languages/Java
-Source0:	http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/current/%{name}.tar.gz
+Source0:	http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/current/concurrent.tar.gz
 # Source0-md5:	6a7898a403c3c400f271c6e9285ce9a2
-Source1:	%{name}-ant.xml
+License:	Public Domain
+Source1:	concurrent-ant.xml
+Group:		Libraries/Java
 URL:		http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/util/concurrent/
 BuildRequires:	ant
 BuildRequires:	jpackage-utils >= 0:1.5
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
 Requires:	jpackage-utils
+Provides:	concurrent
+Obsoletes:	concurrent
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -37,13 +43,13 @@ stosowania niektórych z nich można znaleźć w drugim wydaniu pozycji
 "Concurrent Programming in Java" (Programowanie współbieżne w Javie).
 
 %package javadoc
-Summary:	Javadoc for %{name}
+Summary:	Javadoc for concurrent library
 Summary(pl.UTF-8):	Dokumentacja Javadoc dla pakietu %{name}
 Group:		Documentation
 Requires:	jpackage-utils
 
 %description javadoc
-Javadoc for %{name}.
+Javadoc for concurrent library
 
 %description javadoc -l pl.UTF-8
 Dokumentacja Javadoc dla pakietu %{name}.
@@ -58,17 +64,20 @@ cp %{SOURCE1} build.xml
 %ant \
 	-Dversion=%{version} \
 	-Dj2se.apiurl=%{_javadocdir}/java \
-	jar javadoc
+	jar %{?with_javadoc:javadoc}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_javadir}
-install %{name}-%{version}.jar $RPM_BUILD_ROOT%{_javadir}
-ln -s %{name}-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/%{name}.jar
-install -d $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
+install concurrent-%{version}.jar $RPM_BUILD_ROOT%{_javadir}
+ln -s concurrent-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/concurrent.jar
 
+# javadoc
+%if %{with javadoc}
+install -d $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 cp -a docs/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 ln -s %{name}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{name} # ghost symlink
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -80,7 +89,9 @@ ln -nfs %{name}-%{version} %{_javadocdir}/%{name}
 %defattr(644,root,root,755)
 %{_javadir}/concurrent*.jar
 
+%if %{with javadoc}
 %files javadoc
 %defattr(644,root,root,755)
 %{_javadocdir}/%{name}-%{version}
 %ghost %{_javadocdir}/%{name}
+%endif
