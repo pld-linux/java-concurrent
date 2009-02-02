@@ -9,11 +9,11 @@ Name:		java-concurrent
 Version:	1.3.2
 Release:	1
 Epoch:		0
+Group:		Libraries/Java
 Source0:	http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/current/concurrent.tar.gz
 # Source0-md5:	6a7898a403c3c400f271c6e9285ce9a2
 License:	Public Domain
 Source1:	concurrent-ant.xml
-Group:		Libraries/Java
 URL:		http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/util/concurrent/
 BuildRequires:	ant
 BuildRequires:	jpackage-utils >= 0:1.5
