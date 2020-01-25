@@ -2,7 +2,6 @@
 # Conditional build:
 %bcond_without	javadoc		# don't build javadoc
 
-%include	/usr/lib/rpm/macros.java
 Summary:	Utility classes for concurrent Java programming
 Summary(pl.UTF-8):	Klasy narzędziowe do programowania współbieżnego w Javie
 Name:		java-concurrent
